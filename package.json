@@ -4,7 +4,7 @@
   "description": "for h5-app performance and error monitor",
   "main": "lib/index.js",
   "scripts": {
-    "dev": "rollup -c",
+    "start": "npx http-server",
     "build": "rollup -c",
     "docs": "rm -rf docs/jsdoc && jsdoc ./src/**/*.js -c jsdoc.cfg.json"
   },
@@ -25,5 +25,8 @@
   "devDependencies": {
     "jsdoc": "^3.6.4",
     "rollup": "^2.10.2"
+  },
+  "dependencies": {
+    "tti-polyfill": "^0.2.2"
   }
 }

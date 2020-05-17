@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>performanceObserver</title>
+    <style>
+        body {
+            /* 注意：白色背景色不算FP */
+            background-color: ghostwhite;
+        }
+    </style>
+    <script>
+        console.warn('网络往返时延⏰', navigator.connection.rtt)
+        var headEnding = +new Date;
+    </script>
+</head>
+<body>
+
+    <div id='root'>
+        FCP 监听的首次绘制内容
+    </div>
+    <script>
+        // PerformanceObserver 用于监测性能度量事件，在浏览器的性能时间轴记录下一个新的 performance entries  的时候将会被通知
+        // 创建并返回一个新的 PerformanceObserver 对象
+        /* FP & FCP */
+        const observerPaint = new PerformanceObserver(perf_observer);
+        function perf_observer(list, observer) {
+            for (const entry of list.getEntries()) {
+                console.group('PerformanceObserver-paint:', entry.name);
+                console.log(entry);
+                console.log('类型🚀', entry.entryType);
+                console.log('具体指标🚀', entry.name);
+                console.log('开始时间⏰', entry.startTime);
+                console.log('duration⌚️', entry.duration);
+                console.groupEnd();
+            }
+        }
+        observerPaint.observe({ entryTypes: ['paint'] });
+
+
+        /* FMP */
+        const observerMark = new PerformanceObserver(perf_observer);
+        function perf_observer(list, observer) {
+            for (const entry of list.getEntries()) {
+                console.group('PerformanceObserver-mark:', entry.name);
+                console.log(entry);
+                console.log('类型🚀', entry.entryType);
+                console.log('具体指标🚀', entry.name);
+                console.log('开始时间⏰', entry.startTime);
+                console.log('duration⌚️', entry.duration);
+                console.groupEnd();
+            }
+        }
+        observerMark.observe({ entryTypes: ['mark'] });
+
+
+        /* Long Task */
+        const observerLongtask = new PerformanceObserver((list) => {
+            for (const entry of list.getEntries()) {
+                console.group('PerformanceObserver-longtask:', entry.name);
+                console.log(entry.attribution[0]);
+                console.error('类型🚀', entry.entryType);
+                console.log('具体指标🚀', entry.name);
+                console.log('开始时间⏰', entry.startTime);
+                console.log('duration⌚️', entry.duration);
+                console.groupEnd();
+            }
+        });
+        observerLongtask.observe({ entryTypes: ['longtask'] });
+    </script>
+    <script>
+        var ending1 = +new Date;
+    </script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+    <script>
+        var ending2 = +new Date;
+        function longtaskFun(params) {
+            let x = 0;
+            for (let index = 0; index < 100000; index++) {
+                x++;
+            }
+        }
+        longtaskFun();
+        console.warn('-----script parser end-----, domInteractive is ', performance.timing.domInteractive);
+    </script>
+    <script>
+        // 模拟componentDidMound fetch
+        setTimeout(() => {
+            // 数据回来后进行时间点标记
+            performance.mark('FMP');
+        }, 200);
+    </script>
+    <script src="./tti-polyfill.js"></script>
+    <script>
+        document.addEventListener('readystatechange', (event) => {
+            const {
+                navigationStart,
+                domLoading,
+                domInteractive,
+                domContentLoadedEventStart,
+                domContentLoadedEventEnd,
+                domComplete,
+            } = performance.timing;
+            console.group('addEventListener-readystatechange:', document.readyState);
+            console.log('domLoading', domLoading - navigationStart);
+            console.log('domInteractive', domInteractive - navigationStart);
+            console.log('domContentLoadedEventStart', domContentLoadedEventStart - navigationStart);
+            console.log('domContentLoadedEventEnd', domContentLoadedEventEnd - navigationStart);
+            console.log('domComplete', domComplete - navigationStart);
+            console.log('head标签结束', window.headEnding - navigationStart);
+            console.log('js外链脚本执行前', window.ending1 - navigationStart);
+            console.log('js外链脚本执行后', window.ending2 - navigationStart);
+            console.log('所有脚本执行完毕', window.ending3 - navigationStart);
+            console.log('paint', performance.getEntriesByType('paint'));
+            console.log('mark', performance.getEntriesByType('mark'));
+            console.log('longtask', performance.getEntriesByType('long-task'));
+            console.groupEnd();
+        });
+
+        ttiPolyfill.getFirstConsistentlyInteractive().then((tti) => {
+            console.warn('用户可交互时间🦏🦏', tti);
+        });
+
+        var ending3 = +new Date;
+    </script>
+</body>
+</html>

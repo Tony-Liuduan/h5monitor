@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>readystatechange</title>
+</head>
+<body>
+    <div class="controls">
+        domLoading-解析器开始工作
+        domInteractive-主文档的解析器结束工作
+        domComplete-主文档的解析器结束工作
+        <button id="reload" type="button">Reload</button>
+    </div>
+
+    <div class="event-log">
+        <label>Event log:</label>
+        <textarea readonly class="event-log-contents" rows="8" cols="30"></textarea>
+    </div>
+    <script>
+        const log = document.querySelector('.event-log-contents');
+        const reload = document.querySelector('#reload');
+        console.log('script1');
+
+        reload.addEventListener('click', () => {
+            log.textContent = '';
+            window.setTimeout(() => {
+                window.location.reload(true);
+            }, 200);
+        });
+
+        window.addEventListener('load', (event) => {
+            log.textContent = log.textContent + 'load\n';
+            // console.log(log.textContent)
+        });
+
+        document.addEventListener('readystatechange', (event) => {
+            console.log(performance.timing.domInteractive, 'readystatechange', performance.timing.domContentLoadedEventStart);
+            log.textContent = log.textContent + `readystate: ${document.readyState}\n`;
+            console.log(log.textContent)
+        });
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+            log.textContent = log.textContent + `DOMContentLoaded\n`;
+            console.log('DOMContentLoaded--------', log.textContent)
+        });
+    </script>
+    <script>
+        console.log('script2')
+        let x = 0;
+        for (let index = 0; index < 10000000; index++) {    
+             x++;        
+        }
+        console.log('script2 end', x, performance.timing.domInteractive);
+    </script>
+</body>
+</html>
