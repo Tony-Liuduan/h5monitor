@@ -1,0 +1,29 @@
+{
+  "name": "h5monitor",
+  "version": "1.0.0",
+  "description": "for h5-app performance and error monitor",
+  "main": "lib/index.js",
+  "scripts": {
+    "dev": "rollup -c",
+    "build": "rollup -c",
+    "docs": "rm -rf docs/jsdoc && jsdoc ./src/**/*.js -c jsdoc.cfg.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tony-Liuduan/h5monitor.git"
+  },
+  "keywords": [
+    "monitor-performance",
+    "monitor-error"
+  ],
+  "author": "liuduan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tony-Liuduan/h5monitor/issues"
+  },
+  "homepage": "https://github.com/Tony-Liuduan/h5monitor#readme",
+  "devDependencies": {
+    "jsdoc": "^3.6.4",
+    "rollup": "^2.10.2"
+  }
+}
