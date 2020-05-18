@@ -29,50 +29,75 @@
         // PerformanceObserver 用于监测性能度量事件，在浏览器的性能时间轴记录下一个新的 performance entries  的时候将会被通知
         // 创建并返回一个新的 PerformanceObserver 对象
         /* FP & FCP */
-        const observerPaint = new PerformanceObserver(perf_observer);
-        function perf_observer(list, observer) {
-            for (const entry of list.getEntries()) {
-                console.group('PerformanceObserver-paint:', entry.name);
-                console.log(entry);
-                console.log('类型🚀', entry.entryType);
-                console.log('具体指标🚀', entry.name);
-                console.log('开始时间⏰', entry.startTime);
-                console.log('duration⌚️', entry.duration);
-                console.groupEnd();
+        const observerPaint = new PerformanceObserver(
+            (list, observer) => {
+                for (const entry of list.getEntries()) {
+                    console.group('PerformanceObserver-paint:', entry.name);
+                    console.log(entry);
+                    console.log('类型🚀', entry.entryType);
+                    console.log('具体指标🚀', entry.name);
+                    console.log('开始时间⏰', entry.startTime);
+                    console.log('duration⌚️', entry.duration);
+                    console.groupEnd();
+                }
             }
-        }
+        );
         observerPaint.observe({ entryTypes: ['paint'] });
 
 
         /* FMP */
-        const observerMark = new PerformanceObserver(perf_observer);
-        function perf_observer(list, observer) {
-            for (const entry of list.getEntries()) {
-                console.group('PerformanceObserver-mark:', entry.name);
-                console.log(entry);
-                console.log('类型🚀', entry.entryType);
-                console.log('具体指标🚀', entry.name);
-                console.log('开始时间⏰', entry.startTime);
-                console.log('duration⌚️', entry.duration);
-                console.groupEnd();
+        const observerMark = new PerformanceObserver(
+            (list, observer) => {
+                for (const entry of list.getEntries()) {
+                    console.group('PerformanceObserver-mark:', entry.name);
+                    console.log(entry);
+                    console.log('类型🚀', entry.entryType);
+                    console.log('具体指标🚀', entry.name);
+                    console.log('开始时间⏰', entry.startTime);
+                    console.log('duration⌚️', entry.duration);
+                    console.groupEnd();
+                }
+                performance.clearMarks('FMP');
             }
-        }
+        );
         observerMark.observe({ entryTypes: ['mark'] });
 
 
-        /* Long Task */
-        const observerLongtask = new PerformanceObserver((list) => {
-            for (const entry of list.getEntries()) {
-                console.group('PerformanceObserver-longtask:', entry.name);
-                console.log(entry.attribution[0]);
-                console.error('类型🚀', entry.entryType);
-                console.log('具体指标🚀', entry.name);
-                console.log('开始时间⏰', entry.startTime);
-                console.log('duration⌚️', entry.duration);
-                console.groupEnd();
+        /* Long Task 需要在js脚本前置才能检测到 */
+        const observerLongtask = new PerformanceObserver(
+            (list) => {
+                for (const entry of list.getEntries()) {
+                    console.group('PerformanceObserver-longtask:', entry.name);
+                    console.log(entry);
+                    console.error('类型🚀', entry.entryType);
+                    console.log('具体指标🚀', entry.name);
+                    console.log('开始时间⏰', entry.startTime);
+                    console.log('duration⌚️', entry.duration);
+                    console.groupEnd();
+                }
             }
-        });
+        );
         observerLongtask.observe({ entryTypes: ['longtask'] });
+
+
+        /* 静态资源加载信息统计 */
+        const observerResource = new PerformanceObserver(
+            (list) => {
+                for (const entry of list.getEntries()) {
+                    console.group('PerformanceObserver-resource:', entry.name);
+                    console.log(entry);
+                    console.log('类型🚀', entry.entryType);
+                    console.log('具体指标🚀', entry.name);
+                    console.log('开始时间⏰', entry.startTime);
+                    console.log('duration⌚️', entry.duration);
+                    console.log('transferSize📌', entry.transferSize, 'B');
+                    console.log('encodedBodySize📌', entry.encodedBodySize, 'B');
+                    console.log('initiatorType', entry.initiatorType);
+                    console.groupEnd();
+                }
+            }
+        );
+        observerResource.observe({ entryTypes: ['resource'] });
     </script>
     <script>
         var ending1 = +new Date;
@@ -97,10 +122,21 @@
         }, 200);
     </script>
     <script src="./tti-polyfill.js"></script>
+    <script src="./fps.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
-            console.log('--------DOMContentLoaded--------')
-            console.log(performance.getEntries());
+            console.log('--------DOMContentLoaded--------', performance.now())
+            // jsHeapSizeLimit
+            // 上下文内可用堆的最大体积，以字节计算。
+            // totalJSHeapSize
+            // 已分配的堆体积，以字节计算。
+            // usedJSHeapSize
+            // 当前 JS 堆活跃段（segment）的体积，以字节计算。
+            const {
+                totalJSHeapSize,
+                usedJSHeapSize,
+            } = performance.memory;
+            console.log('js内存使用占比 ：' + (usedJSHeapSize / totalJSHeapSize * 100).toFixed(2) + '%')
         });
 
         document.addEventListener('readystatechange', (event) => {
@@ -112,7 +148,7 @@
                 domContentLoadedEventEnd,
                 domComplete,
             } = performance.timing;
-            console.group('addEventListener-readystatechange:', document.readyState);
+            console.group('addEventListener-readystatechange:', document.readyState, performance.now());
             console.log('domLoading', domLoading - navigationStart);
             console.log('domInteractive', domInteractive - navigationStart);
             console.log('domContentLoadedEventStart', domContentLoadedEventStart - navigationStart);

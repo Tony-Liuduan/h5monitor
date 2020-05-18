@@ -2,7 +2,7 @@
  * @fileoverview FPS (每秒帧率检测)
  * @author liuduan
  * @Date 2020-05-18 00:40:14
- * @LastEditTime 2020-05-18 00:52:01
+ * @LastEditTime 2020-05-18 13:02:33
  * 
  * @衡量标准
  * 帧率能够达到 50 ～ 60 FPS 的动画将会相当流畅，让人倍感舒适
@@ -26,11 +26,15 @@ var loop = function (time) {
 
     lastFameTime = now;
 
+    if (fps < 30) {
+        // console.log('//////////// fps //////////', fps);
+    }
+
     window.requestAnimationFrame(loop);
 };
 loop();
 function aaa() {
-    console.log('start aaaa ________________-')
+    // console.log('start aaaa ________________')
     var ls = new Array(100000);
     ls.fill('1');
     ls.forEach((item, i) => {
@@ -38,7 +42,7 @@ function aaa() {
         li.innerHTML = i + 1;
         document.body.appendChild(li);
     });
-    console.log('end aaaa ________________')
+    // console.log('end aaaa ________________')
 }
 
 aaa();
