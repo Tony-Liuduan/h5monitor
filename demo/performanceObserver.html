@@ -10,6 +10,11 @@
             background-color: ghostwhite;
         }
     </style>
+    <script async src='./async.js'></script>
+    <script defer src='./defer.js'></script>
+    <script type='module'>
+        console.warn('-----------module script: DOMContentLoaded事件还没有执行，但是dom已经完成', document.readyState, '阶段');
+    </script>
     <script>
         console.warn('网络往返时延⏰', navigator.connection.rtt)
         var headEnding = +new Date;
@@ -93,6 +98,11 @@
     </script>
     <script src="./tti-polyfill.js"></script>
     <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            console.log('--------DOMContentLoaded--------')
+            console.log(performance.getEntries());
+        });
+
         document.addEventListener('readystatechange', (event) => {
             const {
                 navigationStart,
@@ -109,9 +119,9 @@
             console.log('domContentLoadedEventEnd', domContentLoadedEventEnd - navigationStart);
             console.log('domComplete', domComplete - navigationStart);
             console.log('head标签结束', window.headEnding - navigationStart);
-            console.log('js外链脚本执行前', window.ending1 - navigationStart);
-            console.log('js外链脚本执行后', window.ending2 - navigationStart);
-            console.log('所有脚本执行完毕', window.ending3 - navigationStart);
+            console.log('js外链同步脚本执行前', window.ending1 - navigationStart);
+            console.log('js外链同步脚本执行后', window.ending2 - navigationStart);
+            console.log('所有同步脚本执行完毕', window.ending3 - navigationStart);
             console.log('paint', performance.getEntriesByType('paint'));
             console.log('mark', performance.getEntriesByType('mark'));
             console.log('longtask', performance.getEntriesByType('long-task'));
@@ -119,7 +129,7 @@
         });
 
         ttiPolyfill.getFirstConsistentlyInteractive().then((tti) => {
-            console.warn('用户可交互时间🦏🦏', tti);
+            console.warn('用户可交互时间tti 🦏🦏', tti);
         });
 
         var ending3 = +new Date;

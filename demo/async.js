@@ -1,0 +1,1 @@
+console.warn('-----------async script: 加载阶段不会阻塞dom解析，加载完会立即执行，执行阶段阻塞dom解析，document.readyState is', document.readyState);
