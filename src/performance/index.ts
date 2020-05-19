@@ -2,7 +2,7 @@
  * @fileoverview 性能监控脚本入口文件
  * @author liuduan
  * @Date 2020-05-17 15:25:04
- * @LastEditTime 2020-05-18 00:56:22
+ * @LastEditTime 2020-05-18 19:43:13
  * @performance https://developer.mozilla.org/zh-CN/docs/Web/API/Performance/mark
  * @performanceObserver https://developer.mozilla.org/zh-CN/docs/Web/API/PerformanceObserver
  * @caniuse https://caniuse.com/#search=PerformanceObserver

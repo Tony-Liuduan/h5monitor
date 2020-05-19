@@ -10,25 +10,21 @@
             background-color: ghostwhite;
         }
     </style>
-    <script async src='./async.js'></script>
     <script defer src='./defer.js'></script>
     <script type='module'>
         console.warn('-----------module script: DOMContentLoaded事件还没有执行，但是dom已经完成', document.readyState, '阶段');
     </script>
     <script>
-        console.warn('网络往返时延⏰', navigator.connection.rtt)
         var headEnding = +new Date;
     </script>
+    <script src="./fps.js"></script>
 </head>
 <body>
-
-    <div id='root'>
-        FCP 监听的首次绘制内容
-    </div>
+    <div id='root'>FCP 监听的首次绘制内容</div>
+    <script src='./async.js'></script>
     <script>
         // PerformanceObserver 用于监测性能度量事件，在浏览器的性能时间轴记录下一个新的 performance entries  的时候将会被通知
         // 创建并返回一个新的 PerformanceObserver 对象
-        /* FP & FCP */
         const observerPaint = new PerformanceObserver(
             (list, observer) => {
                 for (const entry of list.getEntries()) {
@@ -40,11 +36,10 @@
                     console.log('duration⌚️', entry.duration);
                     console.groupEnd();
                 }
+                observerPaint.disconnect();
             }
         );
         observerPaint.observe({ entryTypes: ['paint'] });
-
-
         /* FMP */
         const observerMark = new PerformanceObserver(
             (list, observer) => {
@@ -58,6 +53,7 @@
                     console.groupEnd();
                 }
                 performance.clearMarks('FMP');
+                observerMark.disconnect();
             }
         );
         observerMark.observe({ entryTypes: ['mark'] });
@@ -73,41 +69,25 @@
                     console.log('具体指标🚀', entry.name);
                     console.log('开始时间⏰', entry.startTime);
                     console.log('duration⌚️', entry.duration);
+                    console.log(entry.attribution);
                     console.groupEnd();
                 }
+                observerLongtask.disconnect();
             }
         );
         observerLongtask.observe({ entryTypes: ['longtask'] });
 
-
-        /* 静态资源加载信息统计 */
-        const observerResource = new PerformanceObserver(
-            (list) => {
-                for (const entry of list.getEntries()) {
-                    console.group('PerformanceObserver-resource:', entry.name);
-                    console.log(entry);
-                    console.log('类型🚀', entry.entryType);
-                    console.log('具体指标🚀', entry.name);
-                    console.log('开始时间⏰', entry.startTime);
-                    console.log('duration⌚️', entry.duration);
-                    console.log('transferSize📌', entry.transferSize, 'B');
-                    console.log('encodedBodySize📌', entry.encodedBodySize, 'B');
-                    console.log('initiatorType', entry.initiatorType);
-                    console.groupEnd();
-                }
-            }
-        );
-        observerResource.observe({ entryTypes: ['resource'] });
     </script>
     <script>
         var ending1 = +new Date;
     </script>
+
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
     <script>
         var ending2 = +new Date;
         function longtaskFun(params) {
             let x = 0;
-            for (let index = 0; index < 100000; index++) {
+            for (let index = 0; index < 10000000; index++) {
                 x++;
             }
         }
@@ -122,21 +102,21 @@
         }, 200);
     </script>
     <script src="./tti-polyfill.js"></script>
-    <script src="./fps.js"></script>
     <script>
+        console.warn('网络往返时延⏰', navigator.connection.rtt);
+
+        // for (const entry of performance.getEntriesByType('paint')) {
+        //     console.group('PerformanceObserver-paint:', entry.name);
+        //     console.log(entry);
+        //     console.log('类型🚀', entry.entryType);
+        //     console.log('具体指标🚀', entry.name);
+        //     console.log('开始时间⏰', entry.startTime);
+        //     console.log('duration⌚️', entry.duration);
+        //     console.groupEnd();
+        // }
+
         document.addEventListener('DOMContentLoaded', (event) => {
             console.log('--------DOMContentLoaded--------', performance.now())
-            // jsHeapSizeLimit
-            // 上下文内可用堆的最大体积，以字节计算。
-            // totalJSHeapSize
-            // 已分配的堆体积，以字节计算。
-            // usedJSHeapSize
-            // 当前 JS 堆活跃段（segment）的体积，以字节计算。
-            const {
-                totalJSHeapSize,
-                usedJSHeapSize,
-            } = performance.memory;
-            console.log('js内存使用占比 ：' + (usedJSHeapSize / totalJSHeapSize * 100).toFixed(2) + '%')
         });
 
         document.addEventListener('readystatechange', (event) => {
@@ -148,20 +128,44 @@
                 domContentLoadedEventEnd,
                 domComplete,
             } = performance.timing;
-            console.group('addEventListener-readystatechange:', document.readyState, performance.now());
-            console.log('domLoading', domLoading - navigationStart);
-            console.log('domInteractive', domInteractive - navigationStart);
-            console.log('domContentLoadedEventStart', domContentLoadedEventStart - navigationStart);
-            console.log('domContentLoadedEventEnd', domContentLoadedEventEnd - navigationStart);
-            console.log('domComplete', domComplete - navigationStart);
-            console.log('head标签结束', window.headEnding - navigationStart);
-            console.log('js外链同步脚本执行前', window.ending1 - navigationStart);
-            console.log('js外链同步脚本执行后', window.ending2 - navigationStart);
-            console.log('所有同步脚本执行完毕', window.ending3 - navigationStart);
-            console.log('paint', performance.getEntriesByType('paint'));
-            console.log('mark', performance.getEntriesByType('mark'));
-            console.log('longtask', performance.getEntriesByType('long-task'));
-            console.groupEnd();
+            // console.group('addEventListener-readystatechange:', document.readyState, performance.now());
+            // console.log('domLoading', domLoading - navigationStart);
+            // console.log('domInteractive', domInteractive - navigationStart);
+            // console.log('domContentLoadedEventStart', domContentLoadedEventStart - navigationStart);
+            // console.log('domContentLoadedEventEnd', domContentLoadedEventEnd - navigationStart);
+            // console.log('domComplete', domComplete - navigationStart);
+            // console.log('head标签结束', window.headEnding - navigationStart);
+            // console.log('js外链同步脚本执行前', window.ending1 - navigationStart);
+            // console.log('js外链同步脚本执行后', window.ending2 - navigationStart);
+            // console.log('所有同步脚本执行完毕', window.ending3 - navigationStart);
+            // console.groupEnd();
+
+            if (document.readyState === 'complete') {
+                for (const entry of performance.getEntriesByType('resource')) {
+                    // console.group('PerformanceObserver-resource:', entry.name);
+                    // console.log(entry);
+                    // console.log('类型🚀', entry.entryType);
+                    // console.log('具体指标🚀', entry.name);
+                    // console.log('开始时间⏰', entry.startTime);
+                    // console.log('duration⌚️', entry.duration);
+                    // console.log('transferSize📌', entry.transferSize, 'B');
+                    // console.log('encodedBodySize📌', entry.encodedBodySize, 'B');
+                    // console.log('initiatorType', entry.initiatorType);
+                    // console.groupEnd();
+                }
+
+                // jsHeapSizeLimit
+                // 上下文内可用堆的最大体积，以字节计算。
+                // totalJSHeapSize
+                // 已分配的堆体积，以字节计算。
+                // usedJSHeapSize
+                // 当前 JS 堆活跃段（segment）的体积，以字节计算。
+                const {
+                    totalJSHeapSize,
+                    usedJSHeapSize,
+                } = performance.memory;
+                console.log('js内存使用占比 ：' + (usedJSHeapSize / totalJSHeapSize * 100).toFixed(2) + '%')
+            }
         });
 
         ttiPolyfill.getFirstConsistentlyInteractive().then((tti) => {
