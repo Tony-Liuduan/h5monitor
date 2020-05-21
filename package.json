@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "start": "npx http-server",
-    "build": "rollup -c",
+    "build": "rm -rf lib && rollup -c --watch",
     "docs": "rm -rf docs/jsdoc && jsdoc ./src/**/*.js -c jsdoc.cfg.json"
   },
   "repository": {
@@ -23,8 +23,15 @@
   },
   "homepage": "https://github.com/Tony-Liuduan/h5monitor#readme",
   "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "@rollup/plugin-babel": "^5.0.2",
+    "@types/node": "^14.0.4",
     "jsdoc": "^3.6.4",
-    "rollup": "^2.10.2"
+    "rollup": "^2.10.2",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-typescript2": "^0.27.1",
+    "typescript": "^3.9.3"
   },
   "dependencies": {
     "tti-polyfill": "^0.2.2"
