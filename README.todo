@@ -1,3 +1,12 @@
 TODO:
     ☐ rtt use img
     ☐ basket.js
+    ☐ 错误还原-错误堆栈，留10个xpath：body/div[3]/ul/li[2]，addEventListener('click', (e) => {getXpath(e.target) // 转成blob->node})
+    ☐ buffer 传回后端
+    ☐ 自动化测试化结构cypress 截取UI 十张图 node-git
+    ☐ 后端可视化 
+        ☐ sourcemap分析
+        ☐ 数据库日志，分析日志，过滤脏数据
+    ☐ 错误上报使用fetch，优先级最高，响应及时
+    ☐ 性能上报使用 navigator.sendBeacon / img & setTimeout, （ajax 并发有限制）
+    ☐ xpath???
