@@ -9,4 +9,4 @@ TODO:
         ☐ 数据库日志，分析日志，过滤脏数据
     ☐ 错误上报使用fetch，优先级最高，响应及时
     ☐ 性能上报使用 navigator.sendBeacon / img & setTimeout, （ajax 并发有限制）
-    ☐ xpath???
+    ☐ xpath
