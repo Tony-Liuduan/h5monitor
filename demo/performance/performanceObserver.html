@@ -18,10 +18,25 @@
         var headEnding = +new Date;
     </script>
     <script src="./fps.js"></script>
+    <script>
+        window.onerror = function(e) {
+            alert('err')
+            console.log(e)
+        }
+    </script>
 </head>
 <body>
     <div id='root'>FCP 监听的首次绘制内容</div>
     <script src='./async.js'></script>
+    <script>
+        try {
+            alert(2);
+            null.a = 1
+        } catch (error) {
+            alert(1);
+            console.error(error);
+        }
+    </script>
     <script>
         // PerformanceObserver 用于监测性能度量事件，在浏览器的性能时间轴记录下一个新的 performance entries  的时候将会被通知
         // 创建并返回一个新的 PerformanceObserver 对象
@@ -39,7 +54,7 @@
                 observerPaint.disconnect();
             }
         );
-        observerPaint.observe({ entryTypes: ['paint'] });
+        // observerPaint.observe({ entryTypes: ['paint'] });
         /* FMP */
         const observerMark = new PerformanceObserver(
             (list, observer) => {
@@ -75,7 +90,7 @@
                 observerLongtask.disconnect();
             }
         );
-        observerLongtask.observe({ entryTypes: ['longtask'] });
+        // observerLongtask.observe({ entryTypes: ['longtask'] });
 
     </script>
     <script>
@@ -142,16 +157,16 @@
 
             if (document.readyState === 'complete') {
                 for (const entry of performance.getEntriesByType('resource')) {
-                    // console.group('PerformanceObserver-resource:', entry.name);
-                    // console.log(entry);
-                    // console.log('类型🚀', entry.entryType);
-                    // console.log('具体指标🚀', entry.name);
-                    // console.log('开始时间⏰', entry.startTime);
-                    // console.log('duration⌚️', entry.duration);
-                    // console.log('transferSize📌', entry.transferSize, 'B');
-                    // console.log('encodedBodySize📌', entry.encodedBodySize, 'B');
-                    // console.log('initiatorType', entry.initiatorType);
-                    // console.groupEnd();
+                    console.group('PerformanceObserver-resource:', entry.name);
+                    console.log(entry);
+                    console.log('类型🚀', entry.entryType);
+                    console.log('具体指标🚀', entry.name);
+                    console.log('开始时间⏰', entry.startTime);
+                    console.log('duration⌚️', entry.duration);
+                    console.log('transferSize📌', entry.transferSize, 'B');
+                    console.log('encodedBodySize📌', entry.encodedBodySize, 'B');
+                    console.log('initiatorType', entry.initiatorType);
+                    console.groupEnd();
                 }
 
                 // jsHeapSizeLimit
