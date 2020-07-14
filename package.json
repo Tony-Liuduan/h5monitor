@@ -23,7 +23,8 @@
   },
   "homepage": "https://github.com/Tony-Liuduan/h5monitor#readme",
   "devDependencies": {
-    "@babel/core": "^7.9.6",
+    "@babel/core": "^7.10.4",
+    "@babel/generator": "^7.10.4",
     "@babel/preset-env": "^7.9.6",
     "@rollup/plugin-alias": "^3.1.1",
     "@rollup/plugin-babel": "^5.0.3",

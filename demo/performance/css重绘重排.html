@@ -17,6 +17,7 @@
             -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
             /* filter: grayscale(50%);
             -webkit-filter: grayscale(50%); */
+            opacity: 1;
         }
 
         .ball {
@@ -27,9 +28,7 @@
             height: 100px;
             border-radius: 50%;
             box-shadow: 0 0 5px 0 #000000bf;
-            /* transform: translate3D(0, 0, 0); */
-            /* opacity: 1; */
-            
+            transform: translate3D(0, 0, 0);
         }
 
         @keyframes run-around-gpu {
@@ -89,7 +88,7 @@
     <script>
         var balls = document.getElementById('ball');
         // balls.classList.add('ball-running');
-        balls.classList.add('ball-running-gpu');
+        // balls.classList.add('ball-running-gpu');
     </script>
 </body>
 </html>
