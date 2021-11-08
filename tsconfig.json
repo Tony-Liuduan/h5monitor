@@ -3,7 +3,6 @@
         "allowJs": false,
         "allowSyntheticDefaultImports": true,
         "alwaysStrict": true, // 以严格模式解析并为每个源文件生成 "use strict"语句
-        "baseUrl": ".",
         "esModuleInterop": true,
         "experimentalDecorators": true, // 启用实验性的ES装饰器
         "isolatedModules": false, // 将每个文件作为单独的模块，vite 中设置为 true
@@ -21,9 +20,6 @@
         "strictPropertyInitialization": true, // 确保类的非undefined属性已经在构造函数里初始化
         "strictNullChecks": true, // 在严格的 null检查模式下， null和 undefined值不包含在任何类型里
         "target": "ESNext", // 编译后的版本
-        "paths": {
-            "@/*": ["./src/*"]
-        }
     },
     "include": [
         "./src/**/*"

@@ -1,9 +1,4 @@
 /**
- * @fileoverview 工具类库
- * @author liuduan
- * @Date 2020-05-17 15:25:42
- * @LastEditTime 2020-06-08 00:57:14
+ * @description 数字小数保留 2 位后转数字
  */
-export function add(x) {
-    return x + 1;
-}
+export const numRound2 = (num: number) => Number.parseFloat(num.toFixed(2));

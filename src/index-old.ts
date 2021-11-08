@@ -2,10 +2,10 @@
  * @fileoverview 脚本加载入口文件
  * @author liuduan
  * @Date 2020-05-17 15:06:23
- * @LastEditTime 2020-06-08 11:24:46
+ * @LastEditTime 2021-11-09 17:34:11
  */
-import './performance';
 import './error';
+import './performance/tti';
 
 const tracker = {
     a: 'trs',
