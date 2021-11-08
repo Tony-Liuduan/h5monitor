@@ -5,5 +5,5 @@
  * @LastEditTime 2020-06-05 17:17:20
  */
 
- let a = '123';
- console.log(a);
+let a = '123';
+console.log(a);

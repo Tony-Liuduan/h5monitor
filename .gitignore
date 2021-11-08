@@ -1,2 +1,33 @@
+# dependencies
 node_modules
-basket.js
+
+# backup
+backup
+
+# editors
+.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# lockfile
+package-lock.json
+yarn.lock
+
+# compiled output
+dist
+out-tsc
+coverage
+.cache
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# misc
+npm-debug.log
+yarn-error.log
+

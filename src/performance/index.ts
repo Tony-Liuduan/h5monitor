@@ -20,4 +20,4 @@ add(a);
 
 a = () => {
     console.log('test');
-}
+};

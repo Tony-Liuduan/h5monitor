@@ -1,1 +1,0 @@
-console.warn('-----------defer script:  DOMContentLoaded事件还没有执行，但是dom已经完成', document.readyState, '阶段', performance.now());

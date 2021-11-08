@@ -1,0 +1,15 @@
+# Editor configuration, see https://editorconfig.org
+# 覆盖 IDE 或编辑器的配置, EditorConfig 的作用是配置你的编辑器，以便你所编写的代码已经是格式良好的了
+root = true
+
+[*]
+charset = utf-8
+indent_style = space
+indent_size = 4
+max_line_length = 120
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.md]
+max_line_length = off
+trim_trailing_whitespace = false

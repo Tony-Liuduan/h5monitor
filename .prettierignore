@@ -1,0 +1,12 @@
+dist/
+coverage/
+node_modules/
+docs/
+backup/
+.git/
+.vscode/
+.cache/
+*.md
+*.todo
+*.json
+yarn.lock
